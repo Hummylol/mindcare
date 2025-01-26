@@ -8,13 +8,12 @@ const Calendar = () => {
 
     return (
         <div className="w-full h-full dark:bg-[#1e1e1e] bg-[#ebebeb]">
-            <div className="flex h-[100%]">
+            <div className="flex h-[100%] items-center justify-center">
                 <ShadcnCalendar
                     selected={selectedDate}
                     onSelect={(date: Date | undefined) => setSelectedDate(date)} // Type-safe onSelect
                     className="bg-transparent text-black dark:text-white border-none rounded-lg"
                 />
-                <div className="text-center h-[10%] text-md dark:text-white text-black mb-1">Journal</div>
                 
             </div>
         </div>
