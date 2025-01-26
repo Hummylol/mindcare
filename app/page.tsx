@@ -1,6 +1,6 @@
 import Article from '@/components/homepagecomps/Article'
 import Calendar from '@/components/homepagecomps/Calendar'
-import Journel from '@/components/homepagecomps/Journel'
+import Journal from '@/components/homepagecomps/Journal'
 import MoodSelector from '@/components/homepagecomps/MoodSelector'
 import React from 'react'
 
@@ -24,7 +24,7 @@ const page = () => {
           <Calendar/>
         </div>
         <div className='rounded-2xl dark:bg-[#1e1e1e] bg-[#ebebeb] h-full col-span-1 row-span-1 overflow-hidden'>
-          <Journel/>
+          <Journal/>
         </div>
       </div>
     </div>

@@ -17,17 +17,17 @@ const ArticlesAiCard = () => {
     ];
 
     return (
-        <div className="w-full h-full dark:bg-[#1e1e1e] rounded-2xl shadow-lg">
+        <div className="w-full h-full dark:bg-[#1e1e1e] rounded-2xl shadow-lg p-1">
             <div>
                 <div className="text-center text-md text-black dark:text-white">Articles AI</div>
             </div>
             <Separator />
-            <div className="p-2 pb-6 h-64 overflow-y-auto scrollable-left">
+            <div className="p-2 mb-1 pb-6 h-64 overflow-y-auto scrollable-left">
                 <div className={cn("space-y-2")}>
                     {articles.map((title, index) => (
                         <div
                             key={index}
-                            className="h-8 hover:cursor-pointer scrollable-right flex items-center justify-start px-4 rounded dark:bg-[#303030] bg-[#ffffff] w-full dark:hover:bg-black hover:bg-[#b6b6b6] transition-colors"
+                            className="h-8 hover:cursor-pointer scrollable-right flex items-center justify-start px-4 rounded-lg dark:bg-[#303030] bg-[#ffffff] w-full dark:hover:bg-black hover:bg-[#b6b6b6] transition-colors"
                         >
                             <span className="text-sm dark:text-white text-black">{title}</span>
                         </div>
