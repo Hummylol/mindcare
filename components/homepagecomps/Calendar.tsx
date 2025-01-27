@@ -7,14 +7,13 @@ const Calendar = () => {
     const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date()); // Track selected date
 
     return (
-        <div className="w-full h-full dark:bg-[#1e1e1e] bg-[#ebebeb]">
-            <div className="flex h-[100%] items-center justify-center">
+        <div className="w-full h-full bg-gray-100 dark:bg-zinc-900">
+            <div className="flex h-full items-center justify-center">
                 <ShadcnCalendar
                     selected={selectedDate}
                     onSelect={(date: Date | undefined) => setSelectedDate(date)} // Type-safe onSelect
-                    className="bg-transparent text-black dark:text-white border-none rounded-lg"
+                    className="dark:text-white text-black border-none rounded-lg"
                 />
-                
             </div>
         </div>
     );

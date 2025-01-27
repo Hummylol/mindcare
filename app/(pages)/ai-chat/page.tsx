@@ -124,7 +124,7 @@ export default function PersonalizedChatbot() {
 
   return (
     <div className="flex flex-col mt-12 h-[600px] max-w-2xl mx-auto border rounded-lg bg-background text-foreground">
-      <div className="flex-1 overflow-y-auto p-4" style={{ height: 'calc(100% - 80px)' }}>
+      <div className="flex-1 overflow-y-auto p-4 cust-scroll" style={{ height: 'calc(100% - 80px)' }}>
         {messages.map((message, index) => (
           <div
             key={index}

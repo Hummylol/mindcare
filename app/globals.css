@@ -99,3 +99,20 @@ body {
 .scrollable-right{
   direction: ltr;
 }
+
+.cust-scroll::-webkit-scrollbar {
+  width: 8px; /* Width of the scrollbar */
+}
+
+.cust-scroll::-webkit-scrollbar-track {
+  background: transparent; /* Background of the scrollbar track */
+}
+
+.cust-scroll::-webkit-scrollbar-thumb {
+  background-color: #888; /* Color of the scrollbar thumb */
+  border-radius: 10px; /* Rounded corners for the scrollbar thumb */
+}
+
+.cust-scroll::-webkit-scrollbar-thumb:hover {
+  background-color: #555; /* Color of the scrollbar thumb on hover */
+}
