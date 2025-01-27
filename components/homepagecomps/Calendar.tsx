@@ -8,7 +8,7 @@ const Calendar = () => {
 
     return (
         <div className="w-full h-full bg-gray-100 dark:bg-zinc-900">
-            <div className="flex h-full items-center justify-center">
+            <div className="flex h-full w-full items-center justify-center">
                 <ShadcnCalendar
                     selected={selectedDate}
                     onSelect={(date: Date | undefined) => setSelectedDate(date)} // Type-safe onSelect
