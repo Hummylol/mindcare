@@ -72,7 +72,16 @@ export default function PersonalizedChatbot() {
           {
             parts: [
               {
-                text: `You are an empathetic mental health assistant.\n${conversationHistory}\nUser: ${inputMessage}\nAssistant:`,
+                text: `You are an empathetic mental health assistant. 
+                        You only respond to queries related to mental health, emotional well-being, and self-care. 
+                        Keep your responses short and concise (2-3 sentences max).
+                        If the user's query is not related to mental health, simply reply: 
+                        "I'm here to support you with mental health concerns. Let me know how you're feeling." 
+        
+                        Conversation so far:
+                        ${conversationHistory}
+                        User: ${inputMessage}
+                        Assistant:`,
               },
             ],
           },
@@ -123,21 +132,19 @@ export default function PersonalizedChatbot() {
   };
 
   return (
-    <div className="flex flex-col mt-12 h-[600px] max-w-2xl mx-auto border rounded-lg bg-background text-foreground">
+    <div className="flex flex-col mt-12 mb-40 h-[500px] max-w-2xl mx-auto border rounded-lg bg-background text-foreground">
       <div className="flex-1 overflow-y-auto p-4 cust-scroll" style={{ height: 'calc(100% - 80px)' }}>
         {messages.map((message, index) => (
           <div
             key={index}
-            className={`message mb-2 ${
-              message.sender === 'user' ? 'text-right' : 'text-left'
-            }`}
+            className={`message mb-2 ${message.sender === 'user' ? 'text-right' : 'text-left'
+              }`}
           >
             <span
-              className={`inline-block max-w-[80%] p-2 rounded-lg ${
-                message.sender === 'user'
+              className={`inline-block max-w-[80%] p-2 rounded-lg ${message.sender === 'user'
                   ? 'bg-primary text-primary-foreground'
                   : 'bg-secondary text-secondary-foreground'
-              }`}
+                }`}
             >
               {message.text}
             </span>

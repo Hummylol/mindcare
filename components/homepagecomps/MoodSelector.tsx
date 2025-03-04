@@ -35,7 +35,7 @@ export default function MoodTracker() {
     <TooltipProvider>
       <div className="bg-gray-100 dark:bg-zinc-900 p-4 md:p-8 shadow-lg transition-colors duration-300 rounded-lg">
         <div className="grid grid-cols-1 md:grid-cols-[1fr,auto,auto] items-center gap-4 md:gap-6">
-          <div className="flex items-center justify-between w-9/12">
+          <div className="flex items-center justify-between w-full">
             <h2 className="text-xl md:text-2xl text-gray-800 dark:text-white">
               CURRENT MOOD
             </h2>
@@ -50,7 +50,7 @@ export default function MoodTracker() {
                     }`}
                 />
               ) : (
-                <div className="text-gray-400 text-sm dark:text-gray-600 text-center">
+                <div className="text-gray-400 text-xs dark:text-gray-600 text-center">
                   Select a mood
                 </div>
               )}
