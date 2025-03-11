@@ -5,6 +5,12 @@ import { connectToDatabase } from "@/lib/mongodb";
 import User from "@/lib/models/User";
 import bcrypt from "bcryptjs";
 
+interface Token {
+  id: string;
+  name: string;
+  email: string;
+}
+
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
     GoogleProvider({
@@ -18,7 +24,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        // Type assertion to ensure credentials is of the expected type
         const { email, password } = credentials as {
           email: string | undefined;
           password: string | undefined;
@@ -35,7 +40,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           throw new Error("User not found. Please sign up.");
         }
 
-        // Ensure user.password is a string
         if (typeof user.password !== "string") {
           throw new Error("User password is not valid");
         }
@@ -82,9 +86,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
     async session({ session, token }) {
       if (token) {
-        session.user.id = token.id;
-        session.user.name = token.name;
-        session.user.email = token.email;
+        // Type assertion for token
+        const typedToken = token as unknown as Token;
+        session.user.id = typedToken.id;
+        session.user.name = typedToken.name;
+        session.user.email = typedToken.email;
       }
       return session;
     },
@@ -92,6 +98,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id;
+        token.name = user.name;
+        token.email = user.email;
       }
       return token;
     },
