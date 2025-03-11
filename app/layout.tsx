@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Dock from "@/components/Dock";
 import { ThemeProvider } from "@/context/ThemeProvider";
+import { SessionProvider } from "next-auth/react";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -37,7 +38,7 @@ export default function RootLayout({
           <div className="fixed bottom-4 left-0 right-0 flex justify-center z-50">
             <Dock />
           </div>
-          {children}
+           <SessionProvider>{children}</SessionProvider>
         </ThemeProvider>
       </body>
     </html>

@@ -7,6 +7,7 @@ const withPWA = require("next-pwa")({
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = withPWA({
+  devIndicators: false,
   images: {
     remotePatterns: [
       {
@@ -17,6 +18,9 @@ const nextConfig: NextConfig = withPWA({
       },
     ],
   },
+  experimental:{
+    viewTransition:true
+  }
 });
 
 export default nextConfig;

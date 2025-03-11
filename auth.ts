@@ -1,0 +1,98 @@
+import NextAuth from "next-auth";
+import CredentialsProvider from "next-auth/providers/credentials";
+import GoogleProvider from "next-auth/providers/google";
+import { connectToDatabase } from "@/lib/mongodb"; 
+import User from "@/lib/models/User";
+import bcrypt from "bcryptjs";
+
+export const { handlers, signIn, signOut, auth } = NextAuth({
+  providers: [
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID!,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+    }),
+    CredentialsProvider({
+      name: "Credentials",
+      credentials: {
+        email: { label: "Email", type: "email", placeholder: "user@example.com" },
+        password: { label: "Password", type: "password" },
+      },
+      async authorize(credentials) {
+        if (!credentials?.email || !credentials?.password) {
+          throw new Error("Missing email or password");
+        }
+
+        await connectToDatabase();
+        const user = await User.findOne({ email: credentials.email });
+
+        if (!user) {
+          throw new Error("User not found. Please sign up.");
+        }
+
+        const isPasswordValid = await bcrypt.compare(credentials.password, user.password);
+        if (!isPasswordValid) {
+          throw new Error("Invalid password");
+        }
+
+        return {
+          id: user._id.toString(),
+          name: user.name,
+          email: user.email,
+        };
+      },
+    }),
+  ],
+
+  callbacks: {
+    async signIn({ user, account }) {
+      try {
+        await connectToDatabase();
+
+        if (account.provider === "google") {
+          const existingUser = await User.findOne({ email: user.email });
+
+          if (!existingUser) {
+            await User.create({
+              email: user.email,
+              name: user.name,
+              image: user.image,
+              password: "", 
+              provider: "google",
+            });
+          }
+        }
+
+        return true;
+      } catch (error) {
+        console.error("Error storing user in DB:", error);
+        return false;
+      }
+    },
+
+    async session({ session, token }) {
+      if (token) {
+        session.user.id = token.id;
+        session.user.name = token.name;
+        session.user.email = token.email;
+      }
+      return session;
+    },
+
+    async jwt({ token, user }) {
+      if (user) {
+        token.id = user.id;
+      }
+      return token;
+    },
+  },
+
+  pages: {
+    signIn: "/login",
+  },
+
+  session: {
+    strategy: "jwt",
+  },
+
+  secret: process.env.NEXTAUTH_SECRET,
+});
