@@ -18,18 +18,29 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        if (!credentials?.email || !credentials?.password) {
+        // Type assertion to ensure credentials is of the expected type
+        const { email, password } = credentials as {
+          email: string | undefined;
+          password: string | undefined;
+        };
+
+        if (!email || !password) {
           throw new Error("Missing email or password");
         }
 
         await connectToDatabase();
-        const user = await User.findOne({ email: credentials.email });
+        const user = await User.findOne({ email });
 
         if (!user) {
           throw new Error("User not found. Please sign up.");
         }
 
-        const isPasswordValid = await bcrypt.compare(credentials.password, user.password);
+        // Ensure user.password is a string
+        if (typeof user.password !== "string") {
+          throw new Error("User password is not valid");
+        }
+
+        const isPasswordValid = await bcrypt.compare(password, user.password);
         if (!isPasswordValid) {
           throw new Error("Invalid password");
         }
@@ -48,7 +59,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       try {
         await connectToDatabase();
 
-        if (account.provider === "google") {
+        if (account && account.provider === "google") {
           const existingUser = await User.findOne({ email: user.email });
 
           if (!existingUser) {
