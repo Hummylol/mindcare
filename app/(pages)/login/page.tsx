@@ -7,12 +7,12 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Link from "next/link";
-import { Eye, EyeOff } from "lucide-react";
+import { Eye, EyeOff } from "lucide-react"; // Import eye icons
 
 export default function Login() {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [loading, setLoading] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
+  const [showPassword, setShowPassword] = useState(false); // State for password visibility
   const router = useRouter();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -79,27 +79,34 @@ export default function Login() {
             />
             <button
               type="button"
-              className="absolute top-9 right-3 text-gray-600 dark:text-gray-400"
               onClick={() => setShowPassword(!showPassword)}
+              className="absolute top-9 right-3 text-gray-500 dark:text-gray-400"
             >
               {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
             </button>
           </div>
-
-          <Button type="submit" disabled={loading} className="w-full py-2 rounded-lg font-semibold bg-black dark:bg-white text-white dark:text-black hover:opacity-90 transition">
+          <Button type="submit" className="w-full py-2 rounded-lg font-semibold bg-black dark:bg-white text-white dark:text-black hover:opacity-90 transition" disabled={loading}>
             {loading ? "Logging in..." : "Login"}
           </Button>
 
-          <div className="relative flex items-center my-4">
-            <div className="flex-grow border-t border-gray-400"></div>
-            <span className="mx-4 text-gray-500 dark:text-gray-400">OR</span>
-            <div className="flex-grow border-t border-gray-400"></div>
+          {/* Separator */}
+          <div className="flex items-center my-2">
+            <hr className="w-full border-gray-300 dark:border-gray-600" />
+            <span className="px-2 text-gray-500 dark:text-gray-400 text-sm">or</span>
+            <hr className="w-full border-gray-300 dark:border-gray-600" />
           </div>
 
-          <Button onClick={handleGoogleSignIn} className="w-full py-2 mt-2 bg-blue-500 text-white rounded-lg font-semibold hover:opacity-90 transition">
+          {/* Google Sign-In */}
+          <Button type="button" onClick={handleGoogleSignIn} className="w-full py-2 mt-2 rounded-lg font-semibold bg-blue-500 text-white hover:opacity-90 transition">
             Sign in with Google
           </Button>
         </form>
+
+        {/* Sign Up Link */}
+        <p className="text-center text-sm mt-4 text-gray-600 dark:text-gray-400">
+          Don't have an account?{" "}
+          <Link href="/signup" className="text-blue-500 hover:underline">Sign up</Link>
+        </p>
       </div>
     </div>
   );
