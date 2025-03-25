@@ -21,7 +21,6 @@ export const metadata: Metadata = {
   manifest: "/manifest.json",
 };
 
-// Move themeColor here
 export const viewport: Viewport = {
   themeColor: "#000000",
 };
@@ -33,13 +32,14 @@ export default function RootLayout({
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased relative`}
-      >
-        <ThemeProvider>
-          <div className="fixed bottom-4 left-0 right-0 flex justify-center z-50">
-            <Dock />
-          </div>
-           <SessionProvider>{children}</SessionProvider>
-        </ThemeProvider>
+      ><SessionProvider>
+          <ThemeProvider>
+            <div className="fixed bottom-4 left-0 right-0 flex justify-center z-40">
+              <Dock />
+            </div>
+            {children}
+          </ThemeProvider>
+        </SessionProvider>
       </body>
     </html>
   );
