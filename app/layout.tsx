@@ -29,10 +29,11 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased relative`}
-      ><SessionProvider>
+      >
+        <SessionProvider>
           <ThemeProvider>
             <div className="fixed bottom-4 left-0 right-0 flex justify-center z-40">
               <Dock />

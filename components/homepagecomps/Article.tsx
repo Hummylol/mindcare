@@ -1,41 +1,71 @@
-import React from "react";
-import { Separator } from "../ui/separator";
-import { cn } from "@/lib/utils";
+"use client";
 
-const ArticlesAiCard = () => {
-    const articles = [
-        "5 Simple Ways to Practice Self-Care",
-        "Understanding Anxiety and How to Manage It",
-        "Tips for Better Sleep and Mental Health",
-        "How Gratitude Can Improve Your Well-Being",
-        "The Role of Exercise in Reducing Stress",
-        "Mindfulness Techniques for a Calmer Mind",
-        "Breaking the Stigma Around Mental Health",
-        "Healthy Eating Habits for Mental Wellness",
-        "The Importance of Setting Boundaries",
-        "Coping Strategies for Difficult Emotions"
-    ];
+import { useEffect, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { articles } from "./articledata";
 
-    return (
-        <div className="w-full h-full bg-gray-100 dark:bg-zinc-900 rounded-2xl shadow-lg p-1">
-            <div>
-                <div className="text-center text-md text-gray-800 dark:text-white">Articles AI</div>
+interface ArticleProps {
+  mood: number | null;
+}
+
+const moodNames = ["happy", "bored", "sad", "angry"];
+
+export default function ArticleList({ mood }: ArticleProps) {
+  const [filteredArticles, setFilteredArticles] = useState<
+    { id: number; title: string; content: string }[]
+  >([]);
+
+  useEffect(() => {
+    if (mood !== null) {
+      const moodKey = moodNames[mood - 1] as keyof typeof articles;
+      setFilteredArticles(articles[moodKey] || []);
+    } else {
+      setFilteredArticles([]);
+    }
+  }, [mood]);
+
+  return (
+    <div className="dark:bg-zinc-900 p-4 rounded-xl bg-gray-100 shadow-md">
+      <h2 className="text-xl md:text-2xl text-gray-800 dark:text-white mb-4">
+        Recommended Articles
+      </h2>
+
+      {mood === null ? (
+        <p className="text-gray-600 dark:text-gray-400 text-center py-4">
+          Select your mood to see related articles.
+        </p>
+      ) : (
+        <motion.div
+          key={mood} 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -10 }}
+          transition={{ duration: 0.4 }}
+          className="cust-scroll max-h-[300px] overflow-y-auto p-2 scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200 dark:scrollbar-thumb-gray-600 dark:scrollbar-track-gray-800"
+        >
+          <AnimatePresence mode="sync">
+            <div className="space-y-3">
+              {filteredArticles.map((article) => (
+                <motion.div
+                  key={article.id}
+                  initial={{ opacity: 0, y: -30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 10 }}
+                  transition={{ duration: 0.4 }}
+                  className="p-4 bg-white dark:bg-[#0e0e0e] shadow-md rounded-lg"
+                >
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                    {article.title}
+                  </h3>
+                  <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
+                    {article.content}
+                  </p>
+                </motion.div>
+              ))}
             </div>
-            <Separator className="my-2 bg-gray-300 dark:bg-zinc-800" />
-            <div className="p-2 mb-1 pb-6 h-[85%] overflow-y-auto scrollable-left">
-                <div className={cn("space-y-2")}>
-                    {articles.map((title, index) => (
-                        <div
-                            key={index}
-                            className="h-8 hover:cursor-pointer scrollable-right flex items-center justify-start px-4 rounded-lg bg-white dark:bg-zinc-800 text-gray-800 dark:text-white transition-colors hover:bg-gray-200 dark:hover:bg-zinc-700"
-                        >
-                            <span className="text-sm">{title}</span>
-                        </div>
-                    ))}
-                </div>
-            </div>
-        </div>
-    );
-};
-
-export default ArticlesAiCard;
+          </AnimatePresence>
+        </motion.div>
+      )}
+    </div>
+  );
+}

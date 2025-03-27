@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/tooltip";
 import { Smile, Meh, Frown, Angry } from "lucide-react";
 
-export default function MoodTracker() {
+export default function MoodSelector({ onMoodSelect }: { onMoodSelect: (mood: number) => void }) {
   const [selectedMood, setSelectedMood] = useState<number | null>(null);
   const [isTransitioning, setIsTransitioning] = useState(false);
 
@@ -28,6 +28,7 @@ export default function MoodTracker() {
     setTimeout(() => {
       setSelectedMood(id);
       setIsTransitioning(false);
+      onMoodSelect(id);
     }, 300);
   };
 
@@ -36,18 +37,20 @@ export default function MoodTracker() {
       <div className="bg-gray-100 dark:bg-zinc-900 p-4 md:p-8 shadow-lg transition-colors duration-300 rounded-lg">
         <div className="grid grid-cols-1 md:grid-cols-[1fr,auto,auto] items-center gap-4 md:gap-6">
           <div className="flex items-center justify-between w-full">
-            <h2 className="text-xl md:text-2xl text-gray-800 dark:text-white">
+            <h2 className="text-xl md:text-2xl pl-4 text-gray-800 dark:text-white">
               CURRENT MOOD
             </h2>
             <div
-              className={`h-12 w-12 md:h-16 md:w-16 flex items-center justify-center rounded-full bg-white dark:bg-zinc-900 shadow-inner transition-all duration-300 ${isTransitioning ? "opacity-0 translate-y-4" : "opacity-100"
-                }`}
+              className={`h-12 w-12 md:h-16 mr-4 md:w-16 flex items-center justify-center rounded-full bg-white dark:bg-zinc-900 shadow-inner transition-all duration-300 ${
+                isTransitioning ? "opacity-0 translate-y-4" : "opacity-100"
+              }`}
               aria-label="Current mood display"
             >
               {currentMood ? (
                 <currentMood.icon
-                  className={`h-10 w-10 md:h-16 md:w-16 text-gray-800 dark:text-white transition-opacity duration-300 ${isTransitioning ? "opacity-0" : "opacity-100"
-                    }`}
+                  className={`h-10 w-10 md:h-16 md:w-16 text-gray-800 dark:text-white transition-opacity duration-300 ${
+                    isTransitioning ? "opacity-0" : "opacity-100"
+                  }`}
                 />
               ) : (
                 <div className="text-gray-400 text-xs dark:text-gray-600 text-center">

@@ -98,6 +98,7 @@ body {
 
 .scrollable-right{
   direction: ltr;
+  
 }
 
 .cust-scroll::-webkit-scrollbar {
